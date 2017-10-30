@@ -86,3 +86,24 @@ module.exports = {
         1. 用 webpack-dev-server 生成 bundle.js 文件是在内存中的，并没有实际生成
         2. 如果引用的文件夹中已经有 bundle.js 就不会自动刷新了，你需要先把 bundle.js 文件手动删除
         3. 用 webstorm 需要注意，因为他是自动保存的，所以可能识别的比较慢，你需要手动的 ctrl+s 一下
+#### 浏览器自动刷新
+    * src/app.js
+        + document.write('hello world + 1 + 2')
+    * webpack.develop.config.js
+    ```
+    var path = require('path');
+    module.exports = {
+        // 单页面 SPA 的入口文件
+        entry:[
+            // 实现浏览器自动刷新
+            // 'webpack/hot/dev-server',
+            // 'webpack-dev-server/client?http://localhost:8080',
+            path.resolve(__dirname,'src/js/app.js')
+        ],
+        // 构建之后的文件输出位置配置
+        output: {
+            path: path.resolve(__dirname, 'dist'),
+            filename: 'bundle.js'
+        }
+    };
+    ```
