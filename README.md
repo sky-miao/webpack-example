@@ -37,3 +37,52 @@ module.exports = {
     * 可看到dist中的bundle.js文件
 
 
+
+#### webpack 启动过程演进
+    + package.json
+    ```
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "develop": "webpack --config webpack.develop.config.js",
+        "publish": "webpack --config webpack.publish.config.js"
+    }
+    ```
+    * 执行 ：npm run develop
+###### 安装第三方 自动监听插件
+    * npm install webpack-dev-server -save-dev
+    + package.json
+    ```
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "develop": "webpack-dev-server --config webpack.develop.config.js --devtool eval --progress --colors --hot --content-base src",
+        "publish": "webpack --config webpack.publish.config.js"
+    }
+    ```
+    * webpack-dev-server - 在 localhost:8080 建立一个 Web 服务器
+    * –devtool eval - 为你的代码创建源地址。当有任何报错的时候可以让你更加精确地定位到文件和行号
+    * –progress - 显示合并代码进度
+    * –colors – hot，命令行中显示颜色！
+    * –content-base 指向设置的输出目录//这点一定是我们的发布目录
+    
+##### index.html
+```
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>webpack 使用</title>
+</head>
+<body>
+    <div id="app"> hello world </div>
+</body>
+<script src="bundle.js"></script>
+</html>
+```
+##### 执行
+    * npm run develop 
+    * 启动监听，并在 8080 端口开启了一个服务器。
+    
+    * 注意:
+        1. 用 webpack-dev-server 生成 bundle.js 文件是在内存中的，并没有实际生成
+        2. 如果引用的文件夹中已经有 bundle.js 就不会自动刷新了，你需要先把 bundle.js 文件手动删除
+        3. 用 webstorm 需要注意，因为他是自动保存的，所以可能识别的比较慢，你需要手动的 ctrl+s 一下
